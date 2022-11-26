@@ -11,9 +11,15 @@ defmodule ChatWeb.RoomLive do
   end
 
   @impl true
-  def handle_event(a, %{"chat" => %{"message" => message}}, socket) do
-    Logger.info(message: message, a: a)
-    ChatWeb.Endpoint.broadcast(socket.assign.topic, "new-message", message)
+  def handle_event("submit_message", %{"chat" => %{"message" => message}}, socket) do
+    Logger.info(message: message)
+    ChatWeb.Endpoint.broadcast(socket.assigns.topic, "new-message", message)
     {:noreply, socket}
+  end
+
+  def handle_info(%{event: "new-message", payload: message, topic: topic}, socket) do
+    Logger.info(payload: message)
+
+    {:noreply, assign(socket, messages: socket.assigns.messages ++ [message])}
   end
 end

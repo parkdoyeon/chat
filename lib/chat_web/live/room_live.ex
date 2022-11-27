@@ -64,6 +64,7 @@ defmodule ChatWeb.RoomLive do
     {:noreply, assign(socket, messages: join_messages ++ leave_messages, user_list: user_list)}
   end
 
+  # https://github.com/phoenixframework/phoenix_live_view/blob/45d871f5d633c61b9304f005b9d7d86df9c252a3/lib/phoenix_live_view/helpers.ex#L703
   def display_message(%{type: :system, uuid: uuid, content: content} = assigns) do
     ~H"""
     <p id={uuid}><em><%= content %></em></p>
